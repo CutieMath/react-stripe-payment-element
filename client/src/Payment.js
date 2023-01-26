@@ -14,6 +14,17 @@ function Payment(props) {
     });
   }, []);
 
+  useEffect(() => {
+    fetch("/create-payment-intent", {
+      method: "POST",
+      body: JSON.stringify({}),
+    }).then(async (r) => {
+      const { clientSecret } = await r.json();
+      console.log(clientSecret);
+      setClientSecret(clientSecret);
+    });
+  }, []);
+
   return (
     <>
       <h1>React Stripe and the Payment Element</h1>
