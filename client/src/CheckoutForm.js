@@ -14,6 +14,24 @@ export default function CheckoutForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setIsProcessing(true);
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/completion`,
+      },
+    });
+
+    if (error) {
+      setMessage(error.message);
+    }
+
+    setIsProcessing(false);
   };
 
   return (
