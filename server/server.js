@@ -21,7 +21,25 @@ app.get("/config", (req, res) => {
   });
 });
 
-app.post("/create-payment-intent", async (req, res) => {});
+app.post("/create-payment-intent", async (req, res) => {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      currency: "aud",
+      ammount: 1,
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+    res.send({ clientSecret: paymentIntent.client_secret });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    });
+  }
+});
 
 app.listen(5252, () =>
   console.log(`Node server listening at http://localhost:5252`)
