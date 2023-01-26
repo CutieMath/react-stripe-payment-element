@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
+import {
+  useStripe,
+  useElements,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
 
 export default function CheckoutForm() {
+  const stripe = useStripe();
+  const elements = useElements();
+
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -10,6 +18,7 @@ export default function CheckoutForm() {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
+      <PaymentElement />
       <button disabled={isProcessing} id="submit">
         <span id="button-text">
           {isProcessing ? "Processing ... " : "Pay now"}

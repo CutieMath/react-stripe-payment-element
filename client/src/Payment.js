@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "./CheckoutForm";
+import { Elements } from "@stripe/react-stripe-js";
 
 function Payment(props) {
   const [stripePromise, setStripePromise] = useState(null);
@@ -27,7 +29,12 @@ function Payment(props) {
 
   return (
     <>
-      <h1>React Stripe and the Payment Element</h1>
+      <h1>Stripe</h1>
+      {stripePromise && clientSecret && (
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <CheckoutForm />
+        </Elements>
+      )}
     </>
   );
 }
